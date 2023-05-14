@@ -28,8 +28,11 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 pos = new Vector2(mainGame.frog.getX(), mainGame.frog.getY());
-        pos.add(0, 65);
+        pos.add(0, 100);
         mainGame.frog.setPosition(pos.x, pos.y);
+        mainGame.frog.setIsSafe(false);
+        mainGame.score += 10;
+        mainGame.frogJumped();
         return false;
     }
 
