@@ -1,6 +1,7 @@
 package com.mygdx.spacefrogger;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -29,5 +30,8 @@ public class AssetDescriptors {
     );
     public static final AssetDescriptor<Sound> jumpSound = new AssetDescriptor<Sound>(
             "jump.wav", Sound.class
+    );
+    public static final AssetDescriptor<Music> music = new AssetDescriptor<Music>(
+            "music.mp3", Music.class
     );
 }

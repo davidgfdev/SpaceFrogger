@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameOverScreen implements Screen {
     final AssetManager assetManager = new AssetManager();
@@ -17,6 +18,8 @@ public class GameOverScreen implements Screen {
 
     OrthographicCamera camera;
     float finalScore;
+    float splashTimeout;
+    final float TIMEOUT = 2000000000;
 
     public GameOverScreen(final SpaceFroggerMain game, float score) {
         this.game = game;
@@ -25,6 +28,7 @@ public class GameOverScreen implements Screen {
         camera.setToOrtho(false, 480, 800);
 
         finalScore = score;
+        splashTimeout = TimeUtils.nanoTime();
     }
 
     @Override
@@ -54,8 +58,9 @@ public class GameOverScreen implements Screen {
         game.font.draw(game.batch, "Punts: " + finalScore,50,200);
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new SplashScreen(game));
+        if (TimeUtils.nanoTime() - splashTimeout > TIMEOUT) {
+            splashTimeout = TimeUtils.nanoTime();
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
     }

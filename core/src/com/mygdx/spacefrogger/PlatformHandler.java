@@ -51,14 +51,12 @@ public class PlatformHandler extends Group {
 
     public boolean frogOnPlatform(Frog frog) {
         boolean result = false;
-
-        // Obtenim l'iterador que ens servirà per a recórrer els actors
         Iterator<Actor> it = getChildren().iterator();
 
         while ( it.hasNext()) {
-            // Fem el cast d'actor a gota
             Platform platform = (Platform) it.next();
             if (platform.isOverlapping(frog) ) {
+                System.out.println("miau");
                 frog.setX(platform.getX());
                 result = true;
             }

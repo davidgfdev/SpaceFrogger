@@ -21,7 +21,7 @@ public class SpaceFroggerMain extends Game {
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraft.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 28;
+		parameter.size = 16;
 		font = generator.generateFont(parameter);
 		this.setScreen(new SplashScreen(this));
 	}

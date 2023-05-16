@@ -13,7 +13,6 @@ public class MainMenuScreen implements Screen {
     final SpaceFroggerMain game;
     final Texture backgroundImage;
     Rectangle background;
-
     OrthographicCamera camera;
 
     public MainMenuScreen(final SpaceFroggerMain game) {

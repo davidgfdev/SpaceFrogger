@@ -3,16 +3,12 @@ package com.mygdx.spacefrogger;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -26,12 +22,10 @@ public class MainGame extends InputAdapter implements Screen {
     PlatformHandler[] platformHandlers = new PlatformHandler[6];
     private int health = 3;
     public int score = 0;
-
     Texture background;
     Sound victorySound, jumpSound, failSound;
-
-
     OrthographicCamera camera;
+    Music musicSound;
 
     public MainGame(SpaceFroggerMain game){
         this.game = game;
@@ -44,6 +38,9 @@ public class MainGame extends InputAdapter implements Screen {
     @Override
     public void show() {
         loadAssets();
+
+        musicSound = assetManager.get(AssetDescriptors.music);
+        musicSound.setLooping(true);
 
         frog = new Frog(assetManager.<Texture>get(AssetDescriptors.frogTexture));
         capsules[0] = new Capsule(assetManager.<Texture>get(AssetDescriptors.capsuleTexture));
@@ -74,6 +71,8 @@ public class MainGame extends InputAdapter implements Screen {
         stage.addActor(capsules[2]);
 
         Gdx.input.setInputProcessor(new InputHandler(this));
+        musicSound.play();
+        musicSound.setVolume(0.50f);
     }
 
     @Override
@@ -99,6 +98,8 @@ public class MainGame extends InputAdapter implements Screen {
 
         stage.act(delta);
         stage.draw();
+
+        frogPlatforming();
     }
 
     public void frogJumped(){
@@ -115,6 +116,7 @@ public class MainGame extends InputAdapter implements Screen {
         if (!frogPlatforming()){
             if (health <= 0){
                 game.setScreen(new GameOverScreen(game, score));
+                dispose();
             }else{
                 failSound.play();
                 frog.respawnFrog();
@@ -153,9 +155,7 @@ public class MainGame extends InputAdapter implements Screen {
     @Override
     public void dispose() {
         assetManager.dispose();
-        jumpSound.dispose();
-        victorySound.dispose();
-        failSound.dispose();
+        musicSound.dispose();
     }
 
     private void loadAssets(){
@@ -166,6 +166,7 @@ public class MainGame extends InputAdapter implements Screen {
         assetManager.load(AssetDescriptors.victorySound);
         assetManager.load(AssetDescriptors.jumpSound);
         assetManager.load(AssetDescriptors.failSound);
+        assetManager.load(AssetDescriptors.music);
         assetManager.finishLoading();
     }
 
